@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as graph
 
 
-def conta(P1: float, P2: float):
+def conta(P1: float, P2: float) -> Float:
     if equacao(P1) * equacao(P2) < 0:
         menor, maior = P1, P2
         if equacao(P1) > 0:
@@ -30,3 +30,4 @@ if __name__ == "__main__":
     Ponto1 = float(input("Ponto 1: "))
     Ponto2 = float(input("Ponto 2: "))
     grafico(Ponto1, Ponto2)
+    
