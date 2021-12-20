@@ -1,8 +1,8 @@
-from tkinter import *
-from tkinter import messagebox
-from math import e,pi,sqrt,tan,cos,sin
-from math import log as ln
-from math import log10 as log
+from math import e, pi, sqrt, tan, cos, sin, log as ln, log10 as log
+from tkinter import Tk,Entry,Label,Button,X,messagebox
+import matplotlib.pyplot as graph
+from numpy import linspace
+
 
 class Calculadora:
 
@@ -242,11 +242,9 @@ class Calculadora:
                     self.expressao = ""
             elif self.graph_on:
                 if self.expressao.count("x"):
-                    import matplotlib.pyplot as graph
-                    import numpy as np
                     self.calculator_on = self.Tvi_on = False
                     expressao = lambda x: eval(self.expressao)
-                    eixo_x = np.linspace(-50, 50, (abs(-50) + abs(50)) * 2)
+                    eixo_x = linspace(-20, 20, 40)
                     eixo_y = list(map(expressao, eixo_x))
                     graph.plot(eixo_x,eixo_y)
                     graph.show()
@@ -254,29 +252,25 @@ class Calculadora:
                     messagebox.showinfo("X", "Preciso de pelo menos um 'X'")
             elif self.Tvi_on:
                 if self.expressao.count("x"):
-                    import matplotlib.pyplot as graph
-                    import numpy as np
                     try:
                         P1,P2 = list(map(float,self.TVI_Points()))
                         equacao = lambda x: eval(self.expressao)
-
-                        graph.annotate(f"P1 = {P1}", xy=(P1, equacao(P1)),xytext=(P1, (equacao(P1)/3)),arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
-                        graph.annotate(f"P2 = {P2}", xy=(P2, equacao(P2)),xytext=(P2, (equacao(P2)/3)),arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
-                        eixo_x = np.linspace(P1, P2, int(abs(P1) + abs(P2)) * 2)
+                        eixo_x = linspace(P1, P2, int(abs(P1) + abs(P2)) * 2)
                         eixo_y = list(map(equacao, eixo_x))
                         conta = self.TVI(P1,P2)
                         if conta:
                             messagebox.showinfo("Tem",f"a equação tem pelo menos uma solução neste intervalo com valor de {conta:.4f}")
                             graph.scatter(conta,0)
-                            teorema = graph.plot(eixo_x, eixo_y, color="g",label="a equação tem pelo menos uma solução neste intervalo")
+                            graph.title("A equação tem pelo menos uma solução neste intervalo",fontsize=10)
+                            graph.plot(eixo_x, eixo_y, color="g",label="Há uma solução neste intervalo")
                             graph.annotate(f"X = {conta:.3f}",xy=(conta,0),xytext=(conta / 2,(max(eixo_y)+min(eixo_y))/2),
                                            arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
                         else:
                             messagebox.showinfo("Não tem","não é possível afirmar que existe solução neste intervalo, tente outros dois números")
-                            teorema = graph.plot(eixo_x, eixo_y, color="g",label="Não é possível afirmar que existe solução neste intervalo")
-                        graph.legend(handles=teorema, loc='center')
+                            graph.title("Não é possível afirmar que existe solução neste intervalo",fontsize=10)
+                            graph.plot(eixo_x, eixo_y, color="g",label="Não há solução neste intervalo")
                         graph.stem(eixo_x,eixo_y,linefmt='cyan')
-                        graph.title("Teorema do Valor Intermediario")
+                        graph.suptitle("Teorema do Valor Intermediario",fontsize=14)
                         graph.xlabel("Eixo X")
                         graph.ylabel("Eixo Y")
                         graph.show()
@@ -285,6 +279,7 @@ class Calculadora:
 
                 else:
                     messagebox.showinfo("X", "Preciso de pelo menos um 'X'")
+
         except SyntaxError:
             messagebox.showerror("Erro", "IMPOSSIVEL FAZER ESSA CONTA")
             self.expressao = ""
