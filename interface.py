@@ -253,15 +253,22 @@ class Calculadora:
                     try:
                         P1,P2 = list(map(float,self.TVI_Points()))
                         equacao = lambda x: eval(self.expressao)
+
+                        graph.annotate(f"P1", xy=(P1, equacao(P1)),xytext=(P1, abs(equacao(P1)/3)),arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
+                        graph.annotate(f"P2", xy=(P2, equacao(P2)),xytext=(P2, abs(equacao(P2)/3)),arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
                         eixo_x = np.linspace(P1, P2, int(abs(P1) + abs(P2)) * 2)
                         eixo_y = list(map(equacao, eixo_x))
                         conta = self.TVI(P1,P2)
-                        print(conta)
                         if conta:
+                            messagebox.showinfo("Tem","a equação tem pelo menos uma solução neste intervalo ")
                             graph.scatter(conta,0)
-                            graph.annotate(f"X = {conta:.3f}",xy=(conta, 0),xytext=(conta / 2,(P1+P2)/2),
+                            teorema = graph.plot(eixo_x, eixo_y, color="g",label="a equação tem pelo menos uma solução neste intervalo")
+                            graph.annotate(f"X = {conta:.3f}",xy=(conta,0),xytext=(conta / 2,(max(eixo_y)+min(eixo_y))/2),
                                            arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
-                        graph.plot(eixo_x,eixo_y,color="g")
+                        else:
+                            messagebox.showinfo("Não tem","não é possível afirmar que existe solução neste intervalo, tente outros dois números")
+                            teorema = graph.plot(eixo_x, eixo_y, color="g",label="Não é possível afirmar que existe solução neste intervalo")
+                        graph.legend(handles=teorema, loc='upper right')
                         graph.stem(eixo_x,eixo_y,linefmt='cyan')
                         graph.title("Teorema do Valor Intermediario")
                         graph.xlabel("Eixo X")
