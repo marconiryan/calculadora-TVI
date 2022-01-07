@@ -15,13 +15,25 @@ class Function:
         self.ponto_1 = Entry()
         self.ponto_2 = Entry()
         self.modo = Label()
-        self.botoes = [["x", self.BtX], ["√", self.BtSqrt], ["(", self.BtParL], [")", self.BtParR],
-                       ["%", self.BtPercentage], ["CE", self.BtBackSpace], ["sin", self.BtSin], ["cos", self.BtCos],
-                       ["7", self.BtN7], ["8", self.BtN8], ["9", self.BtN9], ["/", self.BtDiv], ["tan", self.BtTan],
-                       ["x^y", self.BtPower], ["4", self.BtN4], ["5", self.BtN5], ["6", self.BtN6], ["*", self.BtMult],
-                       ["log", self.BtLog], ["ln", self.BtLn], ["1", self.BtN1], ["2", self.BtN2], ["3", self.BtN3],
-                       ["-", self.BtSub], ["π", self.BtPi], ["e", self.BtEuler], ["0", self.BtN0], [".", self.BtPoint],
-                       ["=", self.BtEqual], ["+", self.BtSum]]
+        self.botoes = [["x", lambda: self.func_button("x")], ["√", lambda: self.func_button("sqrt(")],
+                       ["(", lambda: self.func_button("(")], [")", lambda: self.func_button(")")],
+                       ["%", lambda: self.func_button("%")], ["CE", self.BtBackSpace],
+                       ["sin", lambda: self.func_button("sin(")], ["cos", lambda: self.func_button("cos(")],
+                       ["7", lambda: self.func_button("7")], ["8", lambda: self.func_button("8")],
+                       ["9", lambda: self.func_button("9")], ["/", lambda: self.func_button("/")],
+                       ["tan", lambda: self.func_button("tan(")], ["x^y", lambda: self.func_button("^")],
+                       ["4", lambda: self.func_button("4")], ["5", lambda: self.func_button("5")],
+                       ["6", lambda: self.func_button("6")], ["*", lambda: self.func_button("*")],
+                       ["log", lambda: self.func_button("log(")], ["ln", lambda: self.func_button("ln(")],
+                       ["1", lambda: self.func_button("1")], ["2", lambda: self.func_button("2")],
+                       ["3", lambda: self.func_button("3")], ["-", lambda: self.func_button("-")],
+                       ["π", lambda: self.func_button("π")], ["e", lambda: self.func_button("e")],
+                       ["0", lambda: self.func_button("0")], [".", lambda: self.func_button(".")], ["=", self.BtEqual],
+                       ["+", lambda: self.func_button("+")]]
+
+    def func_button(self, texto: str):
+        self.__expressao += texto
+        self.update_display()
 
     def calculator(self) -> None:
         self.ponto_1.configure(state="disabled")
@@ -128,118 +140,6 @@ class Function:
         else:
             messagebox.showinfo("X", "Preciso de pelo menos um 'X'")
 
-    def BtN0(self) -> None:
-        self.__expressao += "0"
-        self.update_display()
-
-    def BtN1(self) -> None:
-        self.__expressao += "1"
-        self.update_display()
-
-    def BtN2(self) -> None:
-        self.__expressao += "2"
-        self.update_display()
-
-    def BtN3(self) -> None:
-        self.__expressao += "3"
-        self.update_display()
-
-    def BtN4(self) -> None:
-        self.__expressao += "4"
-        self.update_display()
-
-    def BtN5(self) -> None:
-        self.__expressao += "5"
-        self.update_display()
-
-    def BtN6(self) -> None:
-        self.__expressao += "6"
-        self.update_display()
-
-    def BtN7(self) -> None:
-        self.__expressao += "7"
-        self.update_display()
-
-    def BtN8(self) -> None:
-        self.__expressao += "8"
-        self.update_display()
-
-    def BtN9(self) -> None:
-        self.__expressao += "9"
-        self.update_display()
-
-    def BtSum(self) -> None:
-        self.__expressao += "+"
-        self.update_display()
-
-    def BtSub(self) -> None:
-        self.__expressao += "-"
-        self.update_display()
-
-    def BtMult(self) -> None:
-        self.__expressao += "*"
-        self.update_display()
-
-    def BtDiv(self) -> None:
-        self.__expressao += "/"
-        self.update_display()
-
-    def BtPoint(self) -> None:
-        self.__expressao += "."
-        self.update_display()
-
-    def BtPower(self) -> None:
-        self.__expressao += "^"
-        self.update_display()
-
-    def BtX(self) -> None:
-        self.__expressao += "x"
-        self.update_display()
-
-    def BtParR(self) -> None:
-        self.__expressao += ")"
-        self.update_display()
-
-    def BtParL(self) -> None:
-        self.__expressao += "("
-        self.update_display()
-
-    def BtPercentage(self) -> None:
-        self.__expressao += "%"
-        self.update_display()
-
-    def BtSqrt(self) -> None:
-        self.__expressao += "sqrt("
-        self.update_display()
-
-    def BtSin(self) -> None:
-        self.__expressao += "sin("
-        self.update_display()
-
-    def BtCos(self) -> None:
-        self.__expressao += "cos("
-        self.update_display()
-
-    def BtTan(self) -> None:
-        self.__expressao += "tan("
-        self.update_display()
-
-    def BtLog(self) -> None:
-        self.__expressao += "log("
-        self.update_display()
-
-    def BtLn(self) -> None:
-        self.__expressao += "ln("
-        self.update_display()
-
-    def BtPi(self) -> None:
-        self.__expressao += "π"
-        self.update_display()
-
-    def BtEuler(self) -> None:
-        self.__expressao += "e"
-        self.update_display()
-
     def format_expression(self) -> str:
         return self.__expressao.replace("^", "**").replace("π", "pi").replace("%", "/100 *")
 
@@ -298,7 +198,8 @@ class Calculadora(Function):
         self.ponto_2 = Entry(frame_point_2, width=3, state="disabled", bg="#90EE90")
         self.ponto_1.pack(side=LEFT)
         self.ponto_2.pack(side=LEFT)
-        Button(frame_mode, text="Calculadora", relief="solid", command=self.calculator, bg="#00BFFF").pack(side=LEFT, ipadx=10)
+        Button(frame_mode, text="Calculadora", relief="solid", command=self.calculator, bg="#00BFFF").pack(side=LEFT,
+                                                                                                           ipadx=10)
         Button(frame_mode, text="Grafico", relief="solid", command=self.graph, bg="#00BFFF").pack(side=LEFT, ipadx=8)
         Button(frame_mode, text="TVI", relief="solid", command=self.TVI_Points, bg="#00BFFF").pack(side=LEFT, ipadx=2)
 
