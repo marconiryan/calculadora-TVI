@@ -152,7 +152,7 @@ class Function:
                 self.BtGraph()
             elif self.__tvi_on:
                 self.BtTVI()
-        except SyntaxError:
+        except (SyntaxError,NameError):
             messagebox.showerror("Erro", "IMPOSSIVEL FAZER ESSA CONTA")
             self.__expressao = ""
             self.update_display()
@@ -208,8 +208,9 @@ class Calculadora(Function):
 
 if __name__ == "__main__":
     app = Tk()
-    app.geometry("300x350")
+    app.geometry("350x350")
     app.title("Calculadora")
     app.configure(background="#1C1C1C")
     Calculadora(app)
+    app.resizable(False,False)
     app.mainloop()
